@@ -53,14 +53,17 @@ int overlap(const Image *target, int tx, int ty, const Image *source, int sx, in
 	return error;
 }
 
-void findOverlap(int *sx, int *sy, const Image *target, int ti, int tj, const Image *source, int count) {
+void findOverlap(int *sx, int *sy, const Image *target, const Image *target_crsp, int ti, int tj, const Image *source, const Image *source_crsp, int count) {
 	int tx, ty;
 	getBlockOrigin(&tx, &ty, ti, tj);
 	int min = INT_MAX;
 	for (int c = 0; c < count; c++) {
 		int x, y;
 		randBlock(&x, &y, source);
-		int error = overlap(target, tx, ty, source, x, y);
+		int overlapError = overlap(target, tx, ty, source, x, y);
+		int correspondenceError = 0;
+		errorRect(&correspondenceError, target_crsp, tx, ty, source_crsp, x, y, blockWidth, blockHeight);
+		int error = alpha * overlapError + (1 - alpha) * correspondenceError;
 		if (error < min) {
 			min = error;
 			*sx = x;

@@ -1,5 +1,5 @@
 CC = g++
-CFLAGS = -g
+CFLAGS = -O2
 INCFLAGS = -I./include 
 LDFLAGS = -L/opt/local/lib -lfreeimage
 

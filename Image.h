@@ -13,7 +13,7 @@ class Image {
 		void setSize(int width, int height);
 
 		void load(const char *filePath);
-		void save(const char *filePath);
+		void save(const char *filePath) const;
 
 		void setPixel(RGBQUAD &rgb, int x, int y) const;
 		void getPixel(RGBQUAD &rgb, int x, int y) const;

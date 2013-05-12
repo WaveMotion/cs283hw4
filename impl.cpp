@@ -69,8 +69,8 @@ void findOverlap(int *sx, int *sy, const Image *target, const Image *target_crsp
 			*sx = x;
 			*sy = y;
 		}
-		// std::cout << "overlap " << c << ": " << error << "/" << min << std::endl; // %%%
 	}
+	std::cout << "block " << ti << ", " << tj << " using (" << *sx << ", " << *sy << ")" << std::endl; // %%%
 }
 
 struct dpcell { int error, prev; };

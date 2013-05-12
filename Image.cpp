@@ -1,3 +1,4 @@
+#include <cstdlib>
 #include <iostream>
 #include "FreeImage.h"
 #include "Image.h"

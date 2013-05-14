@@ -61,9 +61,15 @@ void findOverlap(int *sx, int *sy, const Image *target, const Image *target_crsp
 		int x, y;
 		randBlock(&x, &y, source);
 		int overlapError = overlap(target, tx, ty, source, x, y);
-		int correspondenceError = 0;
-		errorRect(&correspondenceError, target_crsp, tx, ty, source_crsp, x, y, blockWidth, blockHeight);
-		int error = alpha * overlapError + (1 - alpha) * correspondenceError;
+		int error;
+		if (doingTransfer) {
+			int correspondenceError = 0;
+			errorRect(&correspondenceError, target_crsp, tx, ty, source_crsp, x, y, blockWidth, blockHeight);
+			error = alpha * overlapError + (1 - alpha) * correspondenceError;
+		}
+		else {
+			error = overlapError;
+		}
 		if (error < min) {
 			min = error;
 			*sx = x;

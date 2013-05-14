@@ -3,6 +3,7 @@
 #include <cmath>
 #include <iostream>
 #include "FreeImage.h"
+bool doingTransfer;
 float alpha;
 int blockHeight;
 int blockWidth;
@@ -47,7 +48,13 @@ void quilt(Image *target, Image *target_crsp, int rows, int cols, Image *source,
 }
 
 int main(int argc, const char **argv) {
-	if (argc < 5) {
+	if (argc == 5) {
+		doingTransfer = true;
+	}
+	else {
+		doingTransfer = false;
+	}
+	if (argc != 3 && argc != 5) {
 		std::cerr << "usage: " << argv[0] << " <src> <dst> <src-crsp> <dst-crsp> " << std::endl;
 		return 2;
 	}
@@ -66,10 +73,12 @@ int main(int argc, const char **argv) {
 	src->load(argv[1]);
 	Image * const dst = allocate(rows, cols);
 	srand(time(NULL));
-	Image * const src_crsp = new Image();
-	src_crsp->load(argv[3]);
-	Image * const dst_crsp = new Image();
-	dst_crsp->load(argv[4]);
+	Image * const src_crsp = doingTransfer ? new Image() : NULL;
+	Image * const dst_crsp = doingTransfer ? new Image() : NULL;
+	if (doingTransfer) {
+		src_crsp->load(argv[3]);
+		dst_crsp->load(argv[4]);
+	}
 	quilt(dst, dst_crsp, rows, cols, src, src_crsp);
 	dst->save(argv[2]);
 
